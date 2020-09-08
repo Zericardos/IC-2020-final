@@ -622,10 +622,8 @@ def prize_random(features, targets, testsize = .2, prize = 100, \
         
         accuracy_i = accuracy_score(y_test.iloc[:,0], pred_i)
         
-        accuracy.append(accuracy_i)
-        
         feat_set.append([x_train, x_test]), targ_set.append([y_train, y_test]),\
-            rfc.append(rfc_i), pred.append(pred_i)
+            rfc.append(rfc_i), pred.append(pred_i), accuracy.append(accuracy_i)
     
     max_accuracy_array = np.where(accuracy == max(accuracy))[0][-1]
     
@@ -667,9 +665,13 @@ def prize_random(features, targets, testsize = .2, prize = 100, \
         plt.close()
         
     if return_all == True:
+    
         return features_train_set, features_test_set, targ_train_set,\
             targ_test_set, targ_pred_set
-
+    
+    elif return_all == 'yes': 
+        return feat_set, targ_set, rfc, pred, accuracy
+    
     else: return  targ_test_set, targ_pred_set
 
 
@@ -795,31 +797,32 @@ def read(tablename: str()):
 ###Plots 
 
 #Constants
-HEADER_X = ['ujava_aper', 'f378_aper', 'f395_aper', 'f410_aper', 'f430_aper',\
-                       'g_aper', 'f515_aper', 'r_aper', 'f660_aper', 'i_aper',\
-                           'f861_aper', 'z_aper']
-header_xlabel = ['ujava', 'f378', 'f395', 'f410', 'f430','g', 'f515', 'r',\
-                 'f660', 'i', 'f861', 'z']
-header_ylabel = ['bp', 'rp', 'gp', 'parallax']
-HEADER_Y = ['phot_bp_mean_mag', 'phot_rp_mean_mag', 'phot_g_mean_mag', 'parallax']
+#header_x = ['ujava_aper', 'f378_aper', 'f395_aper', 'f410_aper', 'f430_aper',\
+#                       'g_aper', 'f515_aper', 'r_aper', 'f660_aper', 'i_aper',\
+#                           'f861_aper', 'z_aper']
+#header_xlabel = ['ujava', 'f378', 'f395', 'f410', 'f430','g', 'f515', 'r',\
+#                 'f660', 'i', 'f861', 'z']
+#header_ylabel = ['bp', 'rp', 'gp', 'parallax']
+#HEADER_Y = ['phot_bp_mean_mag', 'phot_rp_mean_mag', 'phot_g_mean_mag', 'parallax']
 
 
-def plot_color_diagrams(df_true_false_positive_tf_negative, Title: str, head_x = 
-                        HEADER_X, head_y = HEADER_Y, MAG = False):
+def plot_color_diagrams(df_true_false_positive_tf_negative, Title: str, header_x,\
+                        header_y, header_xlabel, header_ylabel, MAG = False):
     """
-    Salva os diagramas de cores com base nos headers fornecidos. Se não for
-    dado nenhum, ele plota no eixo X todas as diferenças em relação a cada filtro,
-    no eixo Y plota as medidas do GAIA (sem magnitude absoluta por padrão).
+    Salva os diagramas de cores com base nos headers fornecidos. Ele pega os 
+    objetos da esquerda para a direita (header_x). Ele plota no eixo X todas 
+    as diferenças em relação a cada filtro, no eixo Y plota as medidas do GAIA
+    (sem magnitude absoluta por padrão).
     Há enumeração das falsas na classe CRF do DataFrame (vindo da função rec_all)
     Parameters
     ----------
     df_true_false_positive_tf_negative : Pandas DataFrame
         Retornado por rec_all.
     Title : str
-    head_x : list, optional
+    header_x : list, optional
         Com os headers do Pandas DataFrame. Calcula a diferença de magnitude
-        entre todos os dados. The default is HEADER_X.
-    head_y : list, optional
+        entre todos os dados. The default is header_x.
+    header_y : list, optional
         Com os headers do Pandas DataFrame. Calcula a diferença de magnitude
         entre todos os dados.
         Pode ter só um elemento. The default is HEADER_Y.
@@ -850,10 +853,10 @@ def plot_color_diagrams(df_true_false_positive_tf_negative, Title: str, head_x =
     ind_fn = np.where(X['CRF'] == 'False_negative')[0]
     fn = X.iloc[ind_fn]
 
-    if len(head_y) == 1:
-        M = X[head_y]
+    if len(header_y) == 1:
+        M = X[header_y]
 
-    else: M = X[head_y[:-1]]
+    else: M = X[header_y[:-1]]
         
     if MAG == True:
         str_phot = 'phot_'
@@ -880,20 +883,20 @@ def plot_color_diagrams(df_true_false_positive_tf_negative, Title: str, head_x =
         y3 = M[a].iloc[ind_tn]
         y4 = M[a].iloc[ind_fp]
     
-        if len(head_y) == 1:
+        if len(header_y) == 1:
             ylabel = a
 
         else: ylabel = a.replace(str_phot,'').replace(str_mean, ' ') + ' GAIA'
         
         
-        for (b, c), d in zip(enumerate(HEADER_X[:-1]), header_xlabel):
+        for (b, c), d in zip(enumerate(header_x[:-1]), header_xlabel):
             #b = 0:11, c = ujava_aper, f378_aper,..,f861_aper
             x1_1 = tp[c]
             x2_1 = fn[c]
             x3_1 = tn[c]
             x4_1 = fp[c]
             
-            for f,g in zip(HEADER_X[(b + 1):], header_xlabel[(b+1):]):
+            for f,g in zip(header_x[(b + 1):], header_xlabel[(b+1):]):
                 #f depende de b, cada vez menor. f é PELO MENOS um mag header a frente que c
                 
                 
@@ -972,6 +975,7 @@ def plot_color_diagrams(df_true_false_positive_tf_negative, Title: str, head_x =
 
     
     pdf.close()
+
 
 
 
@@ -1076,6 +1080,45 @@ def sdss_spec(DataFrame, Title, save = True, \
     if save == True: pdfsp.close()
     
     return not_found
+
+
+
+def true_falses_distribution(wdtable, ostable, targ_set, pred, r_all = False):
+    
+    
+    TP = 'True_positive'
+    FP = 'False_positive'
+    FN = 'False_negative'
+    TN = 'True_negative'
+    
+    tp = np.array([])
+    fp = tp.copy()
+    fn = tp.copy()
+    tn = tp.copy()
+    
+    targ_set_i = []
+    pred_set_i = []
+    tfp_tfn_i = []
+    
+    ntreinamentos = len(targ_set)
+    
+    for i in range(ntreinamentos):
+    
+        targ_set_i.append(targ_set[i][1])
+        pred_set_i.append(pred[i])
+        tfp_tfn_i.append(rec_all(wdtable, ostable, targ_set_i[i], pred_set_i[i]))
+        
+        tp = np.append(tp, len(np.where(tfp_tfn_i[i].CRF == TP)[0]))
+        tn = np.append(tn, len(np.where(tfp_tfn_i[i].CRF == TN)[0]))
+        fn = np.append(fn, len(np.where(tfp_tfn_i[i].CRF == FN)[0]))
+        fp = np.append(fp, len(np.where(tfp_tfn_i[i].CRF == FP)[0]))
+    
+    tf = {'tp':tp,'tn':tn,'fn':fn, 'fp':fp}
+    tf = pd.DataFrame(data = tf)
+    
+    if r_all == False: return tf
+    else: return [tf, tfp_tfn_i]
+
 
 
 def sdss_spec_jpeg(DataFrame, Title, save = True, \
