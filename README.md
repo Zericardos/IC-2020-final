@@ -1,6 +1,9 @@
 # IC-2020-final
 
-Um compilados dos principais códigos que usei no final da IC 2020 de Astrofísica
+Autor: José Ricardo Silveira
+
+Um compilado com os principais códigos que usei no final da IC 2020 de Astrofísica da Universidade Federal de Santa Catarina.
+
 Não foi usado o git durante a execução do trabalho por desconhecimento. A partir de abril de 2021, isso será feito.
 
 O objetivo era separar a enorme tabela de objetos do GAIA + S-PLUS + SDSS em tabelas menores, de modo que o treinamento pudesse ser feito em meu computador, além disso, 
