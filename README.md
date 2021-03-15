@@ -19,7 +19,7 @@ O trabalho está dividido em etapas. Primeiro, há a divisão das tabelas em dif
   Também deve-se fixar uma semente geral para consistência dos resultados. Ela já está fixada, mas é declarada uma seed toda vez que for preciso. Basta usar a seed do
   numpy que fixa no algoritmo geral: np.random.seed(SEED)
 
-O coração do trabalho está na segunda etapa executada no arquivo train_test_predict_v4.py . Aqui, é feito vários sorteios e tomado o resultado como conjunto oficial,
+O coração do trabalho está na segunda etapa executada no arquivo train_test_predict_v4.py . Aqui, é feito vários sorteios e tomado o resultado como conjunto oficial
 aquele que apresente valor mais próximo da média de acertos. São plotados ou salvos histogramas de média, mediana e desvio padrão de cada conjunto de treinamento e para cada conjunto de resultados: False positives, False negatives, True positives, True negative. Para cada conjunto de features, são feitos 10, 100 e 1000 sorteios no treinamento. Por fim, são salvos DataFrames com os conjuntos que julgamos serem mais significativos GAIA, S-PLUS r, GAIA + S-PLUS r e cada coluna será uma categoria de resultado: False positives, False negatives, True positives, True negative.
   
   Cada modelo de treinamento pode ser salvo para prever outros conjuntos. Isso pode ser feito usando o pickle. Mais informações aqui https://scikit-learn.org/stable/modules/model_persistence.html
