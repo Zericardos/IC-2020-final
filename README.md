@@ -4,7 +4,8 @@ Autor: José Ricardo Silveira
 
 Um compilado com os principais códigos que usei no final da IC 2020 de Astrofísica da Universidade Federal de Santa Catarina.
 
-Não foi usado o git durante a execução do trabalho por desconhecimento. A partir de abril de 2021, isso será feito.
+Não foi usado o git durante a execução do trabalho por desconhecimento. A partir de abril de 2021, isso será feito em outros projetos.
+A descrição de algumas funções e os nomes das variáveis estão em inglês para exercício ,em trabalhos futuros, que necessitem de tal abordagem.
 
 O objetivo era separar a enorme tabela de objetos do GAIA + S-PLUS + SDSS em tabelas menores, de modo que o treinamento pudesse ser feito em meu computador, além disso, 
 o tamanho de cada tabela foi muito menor. Por questões de espaço, essas tabelas estão armazenadas nos servidores locais da astro. Adicionalmente, todo o procedimento de 
