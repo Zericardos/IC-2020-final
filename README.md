@@ -30,9 +30,17 @@ Além disso, habilitando as linhas de código que contenham a função sdss_spec
 #### Na quarta e última etapa, há o plot_color_diagrams_v4.py, salvo três diagramas hertzsprung com diferentes medidas em cada magnitude. Em cada um, é destacado e identificado cada falso negativo.
 
 #### Por fim, no arquivo func.py há todas as funções realizadas no trabalho de 2020.
+<ul>
+ <li>Acredito que várias funções da mesma família deveriam ser agrupadas na mesma classe.</li>
+ <ul>
+  <li>É provável que há várias estruturas que não precisariam ser replicadas, e super().method.</li>
 
-  Acredito que várias funções da mesma família deveriam ser agrupadas na mesma classe. É provável que há várias estruturas que não precisariam ser replicadas, e super().method. Habilitar @getter para facilitar no andamento do projeto.
-  Falta aplicar Docstrings em todas as funções também. 
-  Vários nomes estão horríveis, podem ser simplificados e ficarem mais claros.
-  Exceções devem ser específicas, nunca gerais.
+ <li>Habilitar @getter para facilitar no andamento do projeto.</li>
+ </ul>
+  
+  <li>Falta aplicar Docstrings em todas as funções também.</li>
+  
+  <li>Vários nomes estão horríveis, podem ser simplificados e ficarem mais claros.</li>
+  
+  <li>Exceções devem ser específicas, nunca gerais.</li>
   
