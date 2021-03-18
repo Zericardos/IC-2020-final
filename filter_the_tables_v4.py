@@ -19,8 +19,10 @@ start_time = time.perf_counter()
 wd_table = pd.read_csv("wd_table_final.csv")
 os_table = pd.read_csv("os_table_final.csv")
 
-wd_table = wd_table.iloc[np.unique(wd_table["source_id"], return_index=True)[1]]
-os_table = os_table.iloc[np.unique(os_table["source_id"], return_index=True)[1]]
+wd_table = wd_table.iloc[np.unique(wd_table["source_id"],
+                                   return_index=True)[1]]
+os_table = os_table.iloc[np.unique(os_table["source_id"],
+                                   return_index=True)[1]]
 
 wd_table = wd_table.loc[wd_table.ndet_aper == 12]
 os_table = os_table.loc[os_table.ndet_aper == 12]
